@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-03-25T23:40:25.526Z",
+  "generated_by_role": "admin",
+  "source": {
+    "sqlite": [
+      {
+        "email": "ana.perez@example.com",
+        "name": "Ana Perez",
+        "password_hash": "$2a$10$6pPi/Y2f2MSzVIuKZ7wpguPzYAFnV6t.H7SQE0KhONR1zyArageD6",
+        "registered_at": "2026-03-21T00:49:16.663Z"
+      },
+      {
+        "email": "freelife07boos@gmail.com",
+        "name": "Juan Destéfano",
+        "password_hash": "$2a$10$ZapGfuF5WIeSSkmB86YZCeLyOvwyf8wgbcM7WXUlKocmAjnotK.xy",
+        "registered_at": "2026-03-21T00:54:45.237Z"
+      },
+      {
+        "email": "julianocchipinti2004@gmail.com",
+        "name": "julian",
+        "password_hash": "$2a$10$j38DCBkG6Ch49.U58tBdx./RVB4QsAlhwkjqhNGt0AYM9vYtAzI5G",
+        "registered_at": "2026-03-25T11:45:48.478Z"
+      },
+      {
+        "email": "pedrojose@gmail.com",
+        "name": "Pedro Jose",
+        "password_hash": "$2a$10$tfFB8r0Rd8.95atePwdrpOvPnxplu7oer9dvxSe.JYtOxsEfv0hF2",
+        "registered_at": "2026-03-24T23:02:32.109Z"
+      }
+    ],
+    "postgres": [
+      {
+        "email": "ana.perez@example.com",
+        "name": "Ana Perez",
+        "password_hash": "$2a$10$6pPi/Y2f2MSzVIuKZ7wpguPzYAFnV6t.H7SQE0KhONR1zyArageD6",
+        "registered_at": "2026-03-21T00:49:16.663Z"
+      },
+      {
+        "email": "freelife07boos@gmail.com",
+        "name": "Juan Destéfano",
+        "password_hash": "$2a$10$ZapGfuF5WIeSSkmB86YZCeLyOvwyf8wgbcM7WXUlKocmAjnotK.xy",
+        "registered_at": "2026-03-21T00:54:45.237Z"
+      },
+      {
+        "email": "julianocchipinti2004@gmail.com",
+        "name": "julian",
+        "password_hash": "$2a$10$j38DCBkG6Ch49.U58tBdx./RVB4QsAlhwkjqhNGt0AYM9vYtAzI5G",
+        "registered_at": "2026-03-25T11:45:48.478Z"
+      },
+      {
+        "email": "pedrojose@gmail.com",
+        "name": "Pedro Jose",
+        "password_hash": "$2a$10$tfFB8r0Rd8.95atePwdrpOvPnxplu7oer9dvxSe.JYtOxsEfv0hF2",
+        "registered_at": "2026-03-24T23:02:32.109Z"
+      }
+    ]
+  },
+  "validation": {
+    "sqlite_count": 4,
+    "postgres_count": 4,
+    "sqlite_hash": "1cd5bb862b03c48d0ed3289d3e00d83d4e64d9eb0112b7ff8422370707363535",
+    "postgres_hash": "1cd5bb862b03c48d0ed3289d3e00d83d4e64d9eb0112b7ff8422370707363535",
+    "counts_match": true,
+    "hashes_match": true,
+    "only_in_sqlite": [],
+    "only_in_postgres": []
+  }
+}
