@@ -2,8 +2,12 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const { sqliteDb } = require("../db/sqlite");
 const { pgPool } = require("../db/postgres");
+const { createSqliteUserRepository } = require("../repositories/sqliteUserRepository");
+const { createPostgresUserRepository } = require("../repositories/postgresUserRepository");
 
 const router = express.Router();
+const sqliteUserRepository = createSqliteUserRepository(sqliteDb);
+const postgresUserRepository = createPostgresUserRepository(pgPool);
 
 router.post("/register", async (req, res) => {
   try {
@@ -17,12 +21,12 @@ router.post("/register", async (req, res) => {
     const passwordHash = await bcrypt.hash(String(password), 10);
     const registeredAt = new Date().toISOString();
 
-    const insertStmt = sqliteDb.prepare(`
-      INSERT INTO users (name, email, password_hash, registered_at)
-      VALUES (?, ?, ?, ?)
-    `);
-
-    const result = insertStmt.run(String(name).trim(), normalizedEmail, passwordHash, registeredAt);
+    const result = sqliteUserRepository.createUser({
+      name: String(name).trim(),
+      email: normalizedEmail,
+      passwordHash,
+      registeredAt
+    });
 
     return res.status(201).json({
       id: result.lastInsertRowid,
@@ -50,15 +54,8 @@ router.post("/login", async (req, res) => {
 
     const normalizedEmail = String(email).trim().toLowerCase();
 
-    const sqliteUser = sqliteDb
-      .prepare("SELECT id, name, email, password_hash, registered_at FROM users WHERE email = ?")
-      .get(normalizedEmail);
-
-    const pgResult = await pgPool.query(
-      "SELECT id, name, email, password_hash, registered_at FROM users WHERE email = $1 LIMIT 1",
-      [normalizedEmail]
-    );
-    const pgUser = pgResult.rows[0];
+    const sqliteUser = sqliteUserRepository.findByEmail(normalizedEmail);
+    const pgUser = await postgresUserRepository.findByEmail(normalizedEmail);
 
     if (!sqliteUser || !pgUser) {
       return res.status(401).json({ error: "Hubo un error en su correo o contraseña. Inténtelo de nuevo." });

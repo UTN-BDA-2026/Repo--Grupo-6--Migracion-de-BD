@@ -5,9 +5,13 @@ const express = require("express");
 
 const { sqliteDb } = require("../db/sqlite");
 const { pgPool } = require("../db/postgres");
+const { createSqliteUserRepository } = require("../repositories/sqliteUserRepository");
+const { createPostgresUserRepository } = require("../repositories/postgresUserRepository");
 const { requireAdmin } = require("../middleware/adminAuth");
 
 const router = express.Router();
+const sqliteUserRepository = createSqliteUserRepository(sqliteDb);
+const postgresUserRepository = createPostgresUserRepository(pgPool);
 
 function normalizeRows(rows) {
   return rows
@@ -39,13 +43,11 @@ router.post("/admin/backup-logico", requireAdmin, async (_req, res) => {
       fs.mkdirSync(backupDir, { recursive: true });
     }
 
-    const sqliteRowsRaw = sqliteDb
-      .prepare("SELECT name, email, password_hash, registered_at FROM users")
-      .all();
+    const sqliteRowsRaw = sqliteUserRepository.listAll();
     const sqliteRows = normalizeRows(sqliteRowsRaw);
 
-    const pgResult = await pgPool.query("SELECT name, email, password_hash, registered_at FROM users");
-    const postgresRows = normalizeRows(pgResult.rows);
+    const postgresRowsRaw = await postgresUserRepository.listAll();
+    const postgresRows = normalizeRows(postgresRowsRaw);
 
     const sqliteHash = hashRows(sqliteRows);
     const postgresHash = hashRows(postgresRows);
@@ -88,27 +90,13 @@ router.get("/admin/usuarios-recientes", requireAdmin, async (req, res) => {
   try {
     const limit = Math.min(Math.max(Number(req.query.limit || 10), 1), 100);
 
-    const sqliteResult = sqliteDb
-      .prepare(
-        `SELECT name, email, registered_at
-         FROM users
-         ORDER BY registered_at DESC
-         LIMIT ?`
-      )
-      .all(limit);
-
-    const pgResult = await pgPool.query(
-      `SELECT name, email, registered_at
-       FROM users
-       ORDER BY registered_at DESC
-       LIMIT $1`,
-      [limit]
-    );
+    const sqliteResult = sqliteUserRepository.listRecent(limit);
+    const pgResult = await postgresUserRepository.listRecent(limit);
 
     return res.status(200).json({
       limit,
       sqlite: sqliteResult,
-      postgres: pgResult.rows,
+      postgres: pgResult,
       note: "Consulta de usuarios recientes diseñada para aprovechar el índice idx_users_registered_at"
     });
   } catch (error) {
