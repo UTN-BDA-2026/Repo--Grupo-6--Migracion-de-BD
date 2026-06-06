@@ -10,8 +10,10 @@
     <header class="topbar">
       <div class="brand">Proyecto Base de Datos</div>
       <nav class="topnav" aria-label="Navegación principal">
+        <a href="#" data-nav-target="home">Inicio</a>
         <a href="#" data-auth-target="register">Registrarse</a>
         <a href="#" data-auth-target="login">Iniciar sesión</a>
+        <a href="#" data-nav-target="concurrency">Concurrencia & Particiones</a>
       </nav>
     </header>
 
@@ -70,6 +72,103 @@
 
           <pre id="loginResponseBox" class="response"></pre>
         </article>
+      </section>
+
+      <!-- Panel de Concurrencia y Transacciones -->
+      <section class="dashboard-section" id="concurrencySection" hidden>
+        <div class="dashboard-grid">
+          
+          <!-- Panel de control de simulación -->
+          <article class="card dashboard-card">
+            <h2>Simulación de Concurrencia en Transacciones</h2>
+            <p>Pon a prueba cómo PostgreSQL resuelve transacciones simultáneas que actualizan el mismo registro, aplicando distintos bloqueos y niveles de aislamiento.</p>
+            
+            <div class="test-user-info" id="testUserInfo">
+              <span class="status-badge loading">Cargando usuario de prueba...</span>
+            </div>
+
+            <div class="action-buttons">
+              <button id="btnSetup" class="btn-setup">1. Reiniciar Usuario ($100)</button>
+              <hr class="divider" />
+              <button id="btnLostUpdate" class="btn-action danger">Condición de Carrera (Lost Update)</button>
+              <button id="btnPessimistic" class="btn-action success">Bloqueo Pesimista (FOR UPDATE)</button>
+              <button id="btnOptimistic" class="btn-action warning">Bloqueo Optimista (Versiones)</button>
+              <button id="btnSerializable" class="btn-action primary">Aislamiento SERIALIZABLE</button>
+              <button id="btnSavepoint" class="btn-action secondary">Demo: SAVEPOINT (Restauración Parcial)</button>
+            </div>
+          </article>
+
+          <!-- Consola de Logs en Tiempo Real -->
+          <article class="card console-card">
+            <div class="console-header">
+              <h3>Bitácora de Transacciones en Tiempo Real</h3>
+              <button id="btnClearConsole" class="btn-clear">Limpiar Consola</button>
+            </div>
+            <div class="console-body" id="consoleBody">
+              <p class="console-placeholder">Los logs del motor SQL aparecerán aquí cuando inicies alguna simulación...</p>
+            </div>
+          </article>
+
+          <!-- Estadísticas de Particionamiento -->
+          <article class="card partition-card">
+            <div class="partition-header">
+              <h2>Distribución Física en Particiones (PostgreSQL)</h2>
+              <button id="btnRefreshPartition" class="btn-refresh">Actualizar Datos</button>
+            </div>
+            <p>PostgreSQL distribuye los registros de la tabla lógica <code>users</code> en tablas físicas reales usando <b>Range Partitioning</b> por la columna <code>registered_at</code>.</p>
+            
+            <div class="partition-stats-table-wrapper">
+              <table class="data-table" id="partitionStatsTable">
+                <thead>
+                  <tr>
+                    <th>Partición Física</th>
+                    <th>Rango de Fechas</th>
+                    <th>Registros Actuales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>users_old</code></td>
+                    <td>Antes de 2026 (-∞ a 2025-12-31)</td>
+                    <td id="countOld" class="text-right">-</td>
+                  </tr>
+                  <tr>
+                    <td><code>users_2026</code></td>
+                    <td>Año 2026 (2026-01-01 a 2026-12-31)</td>
+                    <td id="count2026" class="text-right">-</td>
+                  </tr>
+                  <tr>
+                    <td><code>users_future</code></td>
+                    <td>Año 2027 en adelante (2027-01-01 a +∞)</td>
+                    <td id="countFuture" class="text-right">-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Visualizador de Filas Físicas</h3>
+            <p class="description">Utilizando la columna oculta del sistema <code>tableoid::regclass</code>, podemos mapear exactamente a qué partición física real fue dirigida cada fila:</p>
+            <div class="partition-users-table-wrapper">
+              <table class="data-table small" id="partitionUsersTable">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Fecha Registro</th>
+                    <th>Saldo</th>
+                    <th>Partición Física de Destino</th>
+                  </tr>
+                </thead>
+                <tbody id="partitionUsersBody">
+                  <tr>
+                    <td colspan="5" class="text-center">Cargando información...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+        </div>
       </section>
     </main>
 

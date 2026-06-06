@@ -7,7 +7,7 @@ async function migrateUsers() {
   initSqlite();
   await initPostgres();
 
-  const users = sqliteDb.prepare("SELECT id, name, email, password_hash, registered_at FROM users").all();
+  const users = sqliteDb.prepare("SELECT id, name, email, password_hash, registered_at, balance, version FROM users").all();
 
   if (users.length === 0) {
     console.log("No hay registros en SQLite para migrar.");
@@ -22,9 +22,9 @@ async function migrateUsers() {
     await client.query("BEGIN");
 
     const insertQuery = `
-      INSERT INTO users (name, email, password_hash, registered_at)
-      VALUES ($1, $2, $3, $4)
-      ON CONFLICT (email) DO NOTHING
+      INSERT INTO users (name, email, password_hash, registered_at, balance, version)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      ON CONFLICT (email, registered_at) DO NOTHING
       RETURNING id;
     `;
 
@@ -33,7 +33,9 @@ async function migrateUsers() {
         String(user.name).trim(),
         String(user.email).trim().toLowerCase(),
         user.password_hash,
-        new Date(user.registered_at)
+        new Date(user.registered_at),
+        user.balance || 100,
+        user.version || 1
       ];
 
       const result = await client.query(insertQuery, values);

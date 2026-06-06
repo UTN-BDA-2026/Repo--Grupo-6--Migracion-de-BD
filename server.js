@@ -6,6 +6,7 @@ const { initSqlite } = require("./src/db/sqlite");
 const { initPostgres } = require("./src/db/postgres");
 const authRoutes = require("./src/routes/authRoutes");
 const adminRoutes = require("./src/routes/adminRoutes");
+const concurrencyRoutes = require("./src/routes/concurrencyRoutes");
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api", authRoutes);
 app.use("/api", adminRoutes);
+app.use("/api", concurrencyRoutes);
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok" });

@@ -22,9 +22,25 @@ function initSqlite() {
       name TEXT NOT NULL,
       email TEXT NOT NULL UNIQUE,
       password_hash TEXT NOT NULL,
-      registered_at TEXT NOT NULL
+      registered_at TEXT NOT NULL,
+      balance INTEGER NOT NULL DEFAULT 100,
+      version INTEGER NOT NULL DEFAULT 1
     );
+  `);
 
+  try {
+    sqliteDb.exec(`ALTER TABLE users ADD COLUMN balance INTEGER NOT NULL DEFAULT 100;`);
+  } catch (e) {
+    // Column may already exist
+  }
+
+  try {
+    sqliteDb.exec(`ALTER TABLE users ADD COLUMN version INTEGER NOT NULL DEFAULT 1;`);
+  } catch (e) {
+    // Column may already exist
+  }
+
+  sqliteDb.exec(`
     CREATE INDEX IF NOT EXISTS idx_users_registered_at
       ON users (registered_at);
 

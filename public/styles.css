@@ -254,3 +254,351 @@ button:hover {
     padding: 18px 14px 42px;
   }
 }
+
+/* ==========================================================================
+   Estilos Premium del Panel de Concurrencia y Particionamiento
+   ========================================================================== */
+
+.dashboard-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 0 60px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 24px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 960px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ajustes de las tarjetas */
+.dashboard-grid .card {
+  width: 100%;
+  max-width: 100%;
+}
+
+.dashboard-grid .partition-card {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 960px) {
+  .dashboard-grid .partition-card {
+    grid-column: auto;
+  }
+}
+
+/* Tarjeta del usuario de prueba */
+.user-status-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+  font-size: 15px;
+}
+
+.user-status-card p {
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-amount {
+  font-weight: 800;
+  color: #0f766e;
+  font-size: 18px;
+}
+
+/* Divisor */
+.divider {
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+  margin: 16px 0;
+}
+
+/* Badges y estados */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.status-badge.loading {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.status-badge.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+.partition-badge {
+  display: inline-block;
+  font-family: monospace;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.partition-badge.users_old {
+  background: #e2e8f0;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.partition-badge.users_2026 {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.partition-badge.users_future {
+  background: #fef9c3;
+  color: #a16207;
+  border: 1px solid #fef08a;
+}
+
+.version-badge {
+  display: inline-block;
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* Botones especiales */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-setup {
+  background: #0f766e;
+}
+.btn-setup:hover {
+  background: #115e59;
+}
+
+.btn-action {
+  transition: transform 0.15s ease, filter 0.15s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-action:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.btn-action.danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+.btn-action.success {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+.btn-action.warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+.btn-action.primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+.btn-action.secondary {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+/* Consola de base de datos */
+.console-card {
+  display: flex;
+  flex-direction: column;
+  background: #0f172a;
+  color: #f8fafc;
+  border: 1px solid #1e293b;
+  min-height: 480px;
+}
+
+.console-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 12px;
+}
+
+.console-header h3 {
+  margin: 0;
+  color: #38bdf8;
+  font-family: monospace;
+  font-size: 16px;
+}
+
+.btn-clear {
+  background: #334155;
+  font-size: 12px;
+  padding: 4px 10px;
+  margin: 0;
+  border-radius: 6px;
+}
+.btn-clear:hover {
+  background: #475569;
+}
+
+.console-body {
+  flex-grow: 1;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-y: auto;
+  padding: 12px 4px;
+  max-height: 420px;
+}
+
+.console-placeholder {
+  color: #64748b;
+  font-style: italic;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.console-loading {
+  color: #38bdf8;
+  text-align: center;
+  font-style: italic;
+  margin-top: 40px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.console-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.console-line.error {
+  color: #fca5a5;
+  background: rgba(185, 28, 28, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.log-time {
+  color: #475569;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.log-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11px;
+  text-align: center;
+  min-width: 45px;
+}
+
+.log-badge.sys { background: #334155; color: #cbd5e1; }
+.log-badge.tx-a { background: #1e3a8a; color: #93c5fd; }
+.log-badge.tx-b { background: #312e81; color: #c7d2fe; }
+.log-badge.explain { background: #064e3b; color: #6ee7b7; }
+.log-badge.error { background: #7f1d1d; color: #fca5a5; }
+
+.log-text {
+  word-break: break-word;
+}
+.log-text.tx-a { color: #93c5fd; }
+.log-text.tx-b { color: #c7d2fe; }
+.log-text.explain { color: #a7f3d0; font-family: sans-serif; font-size: 14px; margin-top: 4px; }
+
+/* Tablas de datos */
+.partition-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.partition-header h2 {
+  margin: 0;
+}
+
+.btn-refresh {
+  background: #334155;
+  font-size: 13px;
+  padding: 6px 12px;
+  margin: 0;
+}
+.btn-refresh:hover {
+  background: #475569;
+}
+
+.partition-stats-table-wrapper,
+.partition-users-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin: 12px 0 20px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 15px;
+  background: #fff;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: #334155;
+}
+
+.data-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.data-table.small {
+  font-size: 13.5px;
+}
+
+.data-table.small th,
+.data-table.small td {
+  padding: 8px 12px;
+}
+
+.text-right { text-align: right; }
+.text-center { text-align: center; }
