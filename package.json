@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "migrate": "node scripts/migrate-sqlite-to-postgres.js"
+    "migrate": "node scripts/migrate-sqlite-to-postgres.js",
+    "restore": "node scripts/restore-backup.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
